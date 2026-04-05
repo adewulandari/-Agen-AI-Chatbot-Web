@@ -1,0 +1,70 @@
+{
+  "name": "Form to Gmail Automation",
+  "nodes": [
+    {
+      "parameters": {
+        "formTitle": "Registrasi Mahasiswa",
+        "formFields": {
+          "values": [
+            {
+              "fieldLabel": "Nama",
+              "fieldType": "text",
+              "required": true
+            },
+            {
+              "fieldLabel": "Email",
+              "fieldType": "email",
+              "required": true
+            },
+            {
+              "fieldLabel": "Kelas",
+              "fieldType": "dropdown",
+              "options": [
+                "TI-1",
+                "TI-2",
+                "TI-3"
+              ],
+              "required": true
+            }
+          ]
+        }
+      },
+      "id": "1",
+      "name": "Form Trigger",
+      "type": "n8n-nodes-base.formTrigger",
+      "typeVersion": 1,
+      "position": [
+        300,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "toEmail": "={{$json[\"Email\"]}}",
+        "subject": "Halo {{$json[\"Nama\"]}} - Konfirmasi Kelas {{$json[\"Kelas\"]}}",
+        "message": "<h2>Halo {{$json[\"Nama\"]}}</h2><p>Terima kasih sudah mendaftar di kelas {{$json[\"Kelas\"]}}.</p><p>Salam sukses!</p>"
+      },
+      "id": "2",
+      "name": "Gmail Send",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 1,
+      "position": [
+        600,
+        300
+      ]
+    }
+  ],
+  "connections": {
+    "Form Trigger": {
+      "main": [
+        [
+          {
+            "node": "Gmail Send",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  }
+}
